@@ -405,15 +405,23 @@ class GameUtils
     Math.sqrt(Math.pow(p2.x - p1.x,2) + Math.pow(p2.y - p1.y,2))
 
   ###
-     Indique le nombre de tour necessaire à un camion pour rejoindre une station
+     Indique le nombre de tour necessaire à un camion pour aller d'une station à une autre
      @method getTravelDuration
-     @param	source {Truck} le camion
+     @param	source {BikeStation} la station d'origine
      @param   target {BikeStation} la station de destination
+     @param   map {MapData} la map
      @return	result {Int} le nombre de tour
      @static
   ###
-  @getTravelDuration : (source, target)->
-    Math.ceil( GameUtil.getDistanceBetween( source.position, target.position) / Game.TRUCK_SPEED)
+  @getTravelDuration : (source, target, map)->
+    result = 0
+    p = GameUtils.getPath(source,target,map)
+    _g1 = 0;
+    _g = p.get_length() - 1;
+    while(_g1 < _g)
+      i = _g1++
+      result += Math.ceil(GameUtils.getDistanceBetween(p.getItemAt(i),p.getItemAt(i + 1)) / Game.TRUCK_SPEED)
+    return result
 
 
   ###
